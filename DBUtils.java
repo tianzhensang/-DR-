@@ -62,7 +62,6 @@ public class DBUtils
 		return conn;
 	} 
 	
-	
 	public static void close(PreparedStatement pstm)
 	{
 		try
