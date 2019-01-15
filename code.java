@@ -9,6 +9,5 @@ public class code {
 			code.append(source.charAt(index));
 		}
 		System.out.println(code);
-
 	}
 }
