@@ -30,6 +30,7 @@ public class TestEmail {
             System.out.println(msg);
         } catch (EmailException e) {
             e.printStackTrace();
+		
         }
     }
 }
