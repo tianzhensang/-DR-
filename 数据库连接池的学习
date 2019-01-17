@@ -1,0 +1,138 @@
+数据库的连接池有很多，今天来学习一下ComboPooledDataSource;
+
+需要的jar包：
+
+<dependency>
+    <groupId>c3p0</groupId>
+    <artifactId>c3p0</artifactId>
+    <version>0.9.1.2</version>
+</dependency>
+因为是mysql数据库，所以还需要
+
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.34</version>
+</dependency>
+第一种方式：不采用配置文件配置，纯java代码连接：
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.sql.Connection;
+
+
+public class TestCombo{
+    private ComboPooledDataSource dataSource;
+    private TestCombo() {
+        try {
+            dataSource = new ComboPooledDataSource();
+            dataSource.setUser(root);
+            dataSource.setPassword(123456);
+            dataSource.setJdbcUrl(jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8");
+            dataSource.setDriverClass(com.mysql.jdbc.Driver);
+            dataSource.setInitialPoolSize();
+            dataSource.setAcquireIncrement();
+            dataSource.setMinPoolSize();
+            dataSource.setMaxPoolSize();
+            dataSource.setMaxStatements();
+            dataSource.setMaxIdleTime();
+            dataSource.setIdleConnectionTestPeriod();
+            dataSource.setAcquireRetryAttempts();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+  
+    public Connection getConnection() {
+        try {
+            return dataSource.getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException("can not get sms database connection  ", e);
+        }
+    }
+
+}
+第二种方式（配置文件）
+配置文件：c3p0-config.xml 
+名字必须为这个！
+
+<c3p0-config>
+
+<!-- 默认配置，如果没有指定则使用这个配置 -->
+
+    <default-config>       
+
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+
+        <property name="jdbcUrl">
+
+            <![CDATA[jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8]]>
+
+        </property>
+
+        <property name="user">root</property>
+
+        <property name="password">1234</property>
+
+        <!-- 初始化池大小 -->
+
+        <property name="initialPoolSize">2</property>
+
+        <!-- 最大空闲时间 -->
+
+        <property name="maxIdleTime">30</property>
+
+        <!-- 最多有多少个连接 -->
+
+        <property name="maxPoolSize">10</property>
+
+        <!-- 最少几个连接 -->
+
+        <property name="minPoolSize">2</property>
+
+        <!-- 每次最多可以执行多少个批处理语句 -->
+
+        <property name="maxStatements">50</property>
+
+    </default-config>     <!-- 命名的配置 -->
+
+    <named-config name="demo">
+
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+
+        <property name="jdbcUrl"><![CDATA[jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8]]></property>
+
+        <property name="user">root</property>
+
+        <property name="password">1234</property>
+
+        <property name="acquireIncrement">5</property><!-- 如果池中数据连接不够时一次增长多少个 -->
+
+        <property name="initialPoolSize">100</property>
+
+        <property name="minPoolSize">50</property>
+
+        <property name="maxPoolSize">1000</property>
+
+        <property name="maxStatements">0</property>
+
+        <property name="maxStatementsPerConnection">5</property>
+
+ <!-- he's important, but there's only one of him -->
+
+    </named-config>
+
+</c3p0-config> 
+
+代码中获取实例
+
+ ComboPooledDataSource pool = new ComboPooledDataSource();//空参，自动到classpath目录下面加载“c3p0-config.xml”配置文件---配置文件的存储位置和名称必须是这样，且使用“默认配置”
+
+ ComboPooledDataSource pool = new ComboPooledDataSource("demo");//加载“c3p0-config.xml”文件中定义的“demo”这个配置元素
+--------------------- 
+作者：chenpuzhen 
+来源：CSDN 
+原文：https://blog.csdn.net/chenpuzhen/article/details/80610044 
+版权声明：本文为博主原创文章，转载请附上博文链接！
