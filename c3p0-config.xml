@@ -1,0 +1,14 @@
+//xml文件中必定有的东西
+<?xml version="1.0"?>
+<c3p0-config>
+    <default-config>
+        //用户名
+        <property name="user">root</property>
+        //密码
+        <property name="password">123456</property>
+        //所要连接的mysql数据库所在位置的路径
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/stus</property>
+        //怎么去这个数据库
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+    </default-config>
+</c3p0-config>
