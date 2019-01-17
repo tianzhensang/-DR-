@@ -1,0 +1,28 @@
+import java.sql.SQLException;
+
+import org.apache.commons.dbutils.QueryRunner;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+public class Demo_db {
+
+	public static void main(String[] args) {
+		//数据库连接
+		ComboPooledDataSource ds=new ComboPooledDataSource();
+		//编写sql语句
+		String sql="INSERT INTO tbl_stu_info(className,stuName,sex,score)"
+				+" VALUES('S188','刘俊','男','50')";
+		//执行sql语句
+		QueryRunner qr=new QueryRunner(ds);
+		try {
+			int row=qr.update(sql);
+			if(row>0)
+			{
+				System.out.println("操作成功！");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
