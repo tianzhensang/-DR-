@@ -12,3 +12,4 @@
         <property name="driverClass">com.mysql.jdbc.Driver</property>
     </default-config>
 </c3p0-config>
+
