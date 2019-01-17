@@ -7,7 +7,7 @@
         //密码
         <property name="password">123456</property>
         //所要连接的mysql数据库所在位置的路径
-        <property name="jdbcUrl">jdbc:mysql://localhost:3306/stus</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/stus?useUnicode=true&amp;characterEncoding=utf8</property>
         //怎么去这个数据库
         <property name="driverClass">com.mysql.jdbc.Driver</property>
     </default-config>
